@@ -1,0 +1,337 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/alexa-js/alexa-app-server#readme"
+
+    >alexa-app-server (v3.0.1)</a>
+</h1>
+<h4>A web server module for Alexa (Amazon Echo) apps (skills) using Node.js, Express, and alexa-app.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server">module alexa-app-server</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.start">
+            function <span class="apidocSignatureSpan">alexa-app-server.</span>start
+            <span class="apidocSignatureSpan">(config)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">alexa-app-server.</span>utils</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server.utils">module alexa-app-server.utils</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.utils.isValidDirectory">
+            function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>isValidDirectory
+            <span class="apidocSignatureSpan">(dir)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.utils.isValidFile">
+            function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>isValidFile
+            <span class="apidocSignatureSpan">(file)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.utils.normalizeApiPath">
+            function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>normalizeApiPath
+            <span class="apidocSignatureSpan">(apiPath)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.utils.readFile">
+            function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>readFile
+            <span class="apidocSignatureSpan">(file)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.utils.readJsonFile">
+            function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>readJsonFile
+            <span class="apidocSignatureSpan">(file)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.alexa-app-server" id="apidoc.module.alexa-app-server">module alexa-app-server</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.start" id="apidoc.element.alexa-app-server.start">
+        function <span class="apidocSignatureSpan">alexa-app-server.</span>start
+        <span class="apidocSignatureSpan">(config)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">start = function (config) {
+  var appServerInstance = new appServer(config);
+  appServerInstance.start();
+  return appServerInstance;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+## Usage
+
+```javascript
+var AlexaAppServer = require(&#x27;alexa-app-server&#x27;);
+
+var instance = AlexaAppServer.<span class="apidocCodeKeywordSpan">start</span>({
+  server_root: __dirname,     // Path to root
+  public_html: &#x22;public_html&#x22;, // Static content
+  app_dir: &#x22;apps&#x22;,            // Location of alexa-app modules
+  app_root: &#x22;/alexa/&#x22;,        // Service root
+  port: 8080                  // Port to use
+});
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.alexa-app-server.utils" id="apidoc.module.alexa-app-server.utils">module alexa-app-server.utils</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.utils.isValidDirectory" id="apidoc.element.alexa-app-server.utils.isValidDirectory">
+        function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>isValidDirectory
+        <span class="apidocSignatureSpan">(dir)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">isValidDirectory = function (dir) {
+  return fs.existsSync(dir) &#x26;&#x26; fs.statSync(dir).isDirectory();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+var alexaRouter = express.Router();
+
+var normalizedRoot = utils.normalizeApiPath(root);
+self.express.use(normalizedRoot, alexaRouter);
+
+var app_directories = function(srcpath) {
+  return fs.readdirSync(srcpath).filter(function(file) {
+    return utils.<span class="apidocCodeKeywordSpan">isValidDirectory</span>(path.join(srcpath, file));
+  });
+};
+
+app_directories(app_dir).forEach(function(dir) {
+  var package_json = path.join(app_dir, dir, &#x22;package.json&#x22;);
+  if (!utils.isValidFile(package_json)) {
+    self.error(&#x22;   package.json not found in directory &#x22; + dir);
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.utils.isValidFile" id="apidoc.element.alexa-app-server.utils.isValidFile">
+        function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>isValidFile
+        <span class="apidocSignatureSpan">(file)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">isValidFile = function (file) {
+  return fs.existsSync(file) &#x26;&#x26; fs.statSync(file).isFile();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+return fs.readdirSync(srcpath).filter(function(file) {
+  return utils.isValidDirectory(path.join(srcpath, file));
+});
+    };
+
+    app_directories(app_dir).forEach(function(dir) {
+var package_json = path.join(app_dir, dir, &#x22;package.json&#x22;);
+if (!utils.<span class="apidocCodeKeywordSpan">isValidFile</span>(package_json)) {
+  self.error(&#x22;   package.json not found in directory &#x22; + dir);
+  return;
+}
+
+var pkg = utils.readJsonFile(package_json);
+if (!pkg || !pkg.main || !pkg.name) {
+  self.error(&#x22;   failed to load &#x22; + package_json);
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.utils.normalizeApiPath" id="apidoc.element.alexa-app-server.utils.normalizeApiPath">
+        function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>normalizeApiPath
+        <span class="apidocSignatureSpan">(apiPath)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">normalizeApiPath = function (apiPath) {
+  return path.posix.normalize(path.posix.join(&#x27;/&#x27;, apiPath));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  hotswap.on(&#x27;error&#x27;, errorCallback);
+
+  // load application modules
+  self.load_apps = function(app_dir, root) {
+// set up a router to hang all alexa apps off of
+var alexaRouter = express.Router();
+
+var normalizedRoot = utils.<span class="apidocCodeKeywordSpan">normalizeApiPath</span>(root);
+self.express.use(normalizedRoot, alexaRouter);
+
+var app_directories = function(srcpath) {
+  return fs.readdirSync(srcpath).filter(function(file) {
+    return utils.isValidDirectory(path.join(srcpath, file));
+  });
+};
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.utils.readFile" id="apidoc.element.alexa-app-server.utils.readFile">
+        function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>readFile
+        <span class="apidocSignatureSpan">(file)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">readFile = function (file) {
+  return fs.readFileSync(file, &#x27;utf8&#x27;);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+      if (self.config.privateKey != undefined &#x26;&#x26; self.config.certificate != undefined &#x26;&#x26; self.config.httpsPort
+ != undefined) {
+        var sslCertRoot = path.join(self.config.server_root, &#x27;sslcert&#x27;);
+        var privateKeyFile = path.join(sslCertRoot, self.config.privateKey);
+        var certificateFile = path.join(sslCertRoot, self.config.certificate);
+        var chainFile = (self.config.chain != undefined) ? path.join(sslCertRoot, self.config.chain) : undefined;
+
+        if (utils.isValidFile(privateKeyFile) &#x26;&#x26; utils.isValidFile(certificateFile)) {
+var privateKey = utils.<span class="apidocCodeKeywordSpan">readFile</span>(privateKeyFile);
+var certificate = utils.readFile(certificateFile);
+
+var chain = undefined;
+if (chainFile != undefined) {
+  if (utils.isValidFile(chainFile)) {
+    chain = utils.readFile(chainFile);
+  } else {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.utils.readJsonFile" id="apidoc.element.alexa-app-server.utils.readJsonFile">
+        function <span class="apidocSignatureSpan">alexa-app-server.utils.</span>readJsonFile
+        <span class="apidocSignatureSpan">(file)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">readJsonFile = function (file) {
+  return JSON.parse(readFile(file));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    app_directories(app_dir).forEach(function(dir) {
+var package_json = path.join(app_dir, dir, &#x22;package.json&#x22;);
+if (!utils.isValidFile(package_json)) {
+  self.error(&#x22;   package.json not found in directory &#x22; + dir);
+  return;
+}
+
+var pkg = utils.<span class="apidocCodeKeywordSpan">readJsonFile</span>(package_json);
+if (!pkg || !pkg.main || !pkg.name) {
+  self.error(&#x22;   failed to load &#x22; + package_json);
+  return;
+}
+
+var main = fs.realpathSync(path.join(app_dir, dir, pkg.main));
+if (!utils.isValidFile(main)) {
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
