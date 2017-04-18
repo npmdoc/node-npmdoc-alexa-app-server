@@ -63,6 +63,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.alexa-app-server">
+            function <span class="apidocSignatureSpan"></span>alexa-app-server
+            <span class="apidocSignatureSpan">(config)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.start">
             function <span class="apidocSignatureSpan">alexa-app-server.</span>start
             <span class="apidocSignatureSpan">(config)</span>
@@ -72,7 +81,42 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.toString">
+            function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">alexa-app-server.</span>utils</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server.start">module alexa-app-server.start</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.start.start">
+            function <span class="apidocSignatureSpan">alexa-app-server.</span>start
+            <span class="apidocSignatureSpan">(config)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server.toString">module alexa-app-server.toString</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.toString.toString">
+            function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
 
         </li>
 
@@ -134,6 +178,155 @@
 
 
     <h2>
+        <a href="#apidoc.element.alexa-app-server.alexa-app-server" id="apidoc.element.alexa-app-server.alexa-app-server">
+        function <span class="apidocSignatureSpan"></span>alexa-app-server
+        <span class="apidocSignatureSpan">(config)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">alexa-app-server = function (config) {
+  var self = {};
+  config = config || {};
+
+  var defaultOptions = {
+    log: true,
+    debug: true,
+    verify: false,
+    port: process.env.port || 8080,
+    httpEnabled: true,
+    httpsEnabled: false,
+    public_html: &#x27;public_html&#x27;,
+    server_dir: &#x27;server&#x27;,
+    server_root: &#x27;.&#x27;,
+    app_root: &#x27;alexa&#x27;,
+    app_dir: &#x27;apps&#x27;
+  };
+
+  self.config = defaults(config, defaultOptions);
+
+  if (self.config.verify &#x26;&#x26; self.config.debug) {
+    throw new Error(&#x22;invalid configuration: the verify and debug options cannot be both enabled&#x22;);
+  }
+
+  if (!self.config.httpEnabled &#x26;&#x26; !self.config.httpsEnabled) {
+    throw new Error(&#x22;invalid configuration: either http or https must be enabled&#x22;);
+  }
+
+  if (self.config.httpEnabled &#x26;&#x26; self.config.httpsEnabled &#x26;&#x26; self.config.port == self.config.httpsPort) {
+    throw new Error(&#x22;invalid configuration: http and https ports must be different&#x22;);
+  }
+
+  self.apps = {};
+
+  self.log = function(msg) {
+    if (self.config.log) {
+      console.log(msg);
+    }
+  };
+
+  self.error = function(msg) {
+    console.error(msg);
+  };
+
+  // configure hotswap to watch for changes and swap out module code
+  var hotswapCallback = function(filename) {
+    self.log(&#x22;hotswap reloaded &#x22; + filename);
+  };
+
+  var errorCallback = function(e) {
+    self.error(&#x22;-----\nhotswap error: &#x22; + e + &#x22;\n-----\n&#x22;);
+  };
+
+  hotswap.on(&#x27;swap&#x27;, hotswapCallback);
+  hotswap.on(&#x27;error&#x27;, errorCallback);
+
+  // load application modules
+  self.load_apps = function(app_dir, root) {
+    // set up a router to hang all alexa apps off of
+    var alexaRouter = express.Router();
+
+    var normalizedRoot = utils.normalizeApiPath(root);
+    self.express.use(normalizedRoot, alexaRouter);
+
+    var app_directories = function(srcpath) {
+      return fs.readdirSync(srcpath).filter(function(file) {
+        return utils.isValidDirectory(path.join(srcpath, file));
+      });
+    };
+
+    app_directories(app_dir).forEach(function(dir) {
+      var package_json = path.join(app_dir, dir, &#x22;package.json&#x22;);
+      if (!utils.isValidFile(package_json)) {
+        self.error(&#x22;   package.json not found in directory &#x22; + dir);
+        return;
+      }
+
+      var pkg = utils.readJsonFile(package_json);
+      if (!pkg || !pkg.main || !pkg.name) {
+        self.error(&#x22;   failed to load &#x22; + package_json);
+        return;
+      }
+
+      var main = fs.realpathSync(path.join(app_dir, dir, pkg.main));
+      if (!utils.isValidFile(main)) {
+        self.error(&#x22;   main file not found for app [&#x22; + pkg.name + &#x22;]: &#x22; + main);
+        return;
+      }
+
+      var app;
+      try {
+        app = require(main);
+      } catch (e) {
+        self.error(&#x22;   error loading app [&#x22; + main + &#x22;]: &#x22; + e);
+        return;
+      }
+
+      self.apps[pkg.name] = pkg;
+      self.apps[pkg.name].exports = app;
+      if (typeof app.express != &#x22;function&#x22;) {
+        self.error(&#x22;   app [&#x22; + pkg.name + &#x22;] is not an instance of alexa-app&#x22;);
+        return;
+      }
+
+      // extract Alexa-specific attributes from package.json, if they exist
+      if (typeof pkg.alexa == &#x22;object&#x22;) {
+        app.id = pkg.alexa.applicationId;
+      }
+
+      // attach the alexa-app instance to the alexa router
+      app.express({
+        expressApp: alexaRouter,
+        debug: self.config.debug,
+        checkCert: self.config.verify,
+        preRequest: self.config.preRequest,
+        postRequest: self.config.postRequest
+      });
+
+      var endpoint = path.posix.join(normalizedRoot, app.name);
+      self.log(&#x22;   loaded app [&#x22; + pkg.name + &#x22;] at endpoint: &#x22; + endpoint);
+    });
+
+    return self.apps;
+  };
+
+  // load server modules, eg. code that processes forms, anything that wants to hook into express
+  self.load_server_modules = function(server_dir) {
+    var server_files = function(srcpath) {
+      return fs.readdirSync(srcpath).filter(function(file) {
+        return utils.isValidFile(path.join(srcpath, file));
+      });
+    };
+    server_files(server_dir).forEach(function(file) {
+      file = fs.realpathSync(path.join(server_dir, file));
+      self.log(&#x22;   loaded &#x22; + file);
+      var func = require(file);
+      if (typeof func ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
         <a href="#apidoc.element.alexa-app-server.start" id="apidoc.element.alexa-app-server.start">
         function <span class="apidocSignatureSpan">alexa-app-server.</span>start
         <span class="apidocSignatureSpan">(config)</span>
@@ -164,6 +357,76 @@ var instance = AlexaAppServer.<span class="apidocCodeKeywordSpan">start</span>({
     </ul>
 
 
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.toString" id="apidoc.element.alexa-app-server.toString">
+        function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.alexa-app-server.start" id="apidoc.module.alexa-app-server.start">module alexa-app-server.start</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.start.start" id="apidoc.element.alexa-app-server.start.start">
+        function <span class="apidocSignatureSpan">alexa-app-server.</span>start
+        <span class="apidocSignatureSpan">(config)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">start = function (config) {
+  var appServerInstance = new appServer(config);
+  appServerInstance.start();
+  return appServerInstance;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+## Usage
+
+```javascript
+var AlexaAppServer = require(&#x27;alexa-app-server&#x27;);
+
+var instance = AlexaAppServer.<span class="apidocCodeKeywordSpan">start</span>({
+  server_root: __dirname,     // Path to root
+  public_html: &#x22;public_html&#x22;, // Static content
+  app_dir: &#x22;apps&#x22;,            // Location of alexa-app modules
+  app_root: &#x22;/alexa/&#x22;,        // Service root
+  port: 8080                  // Port to use
+});
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.alexa-app-server.toString" id="apidoc.module.alexa-app-server.toString">module alexa-app-server.toString</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.alexa-app-server.toString.toString" id="apidoc.element.alexa-app-server.toString.toString">
+        function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
 
 
 </div>
