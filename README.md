@@ -1,6 +1,7 @@
 # npmdoc-alexa-app-server
 
-api documentation for  [alexa-app-server (v3.0.1)](https://github.com/alexa-js/alexa-app-server#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-alexa-app-server.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-alexa-app-server) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-alexa-app-server.svg)](https://travis-ci.org/npmdoc/node-npmdoc-alexa-app-server)
+#### basic api documentation for  [alexa-app-server (v3.0.1)](https://github.com/alexa-js/alexa-app-server#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-alexa-app-server.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-alexa-app-server) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-alexa-app-server.svg)](https://travis-ci.org/npmdoc/node-npmdoc-alexa-app-server)
+
 #### A web server module for Alexa (Amazon Echo) apps (skills) using Node.js, Express, and alexa-app.
 
 [![NPM](https://nodei.co/npm/alexa-app-server.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/alexa-app-server)
@@ -82,7 +83,8 @@ api documentation for  [alexa-app-server (v3.0.1)](https://github.com/alexa-js/a
         "danger": "danger",
         "test": "mocha"
     },
-    "version": "3.0.1"
+    "version": "3.0.1",
+    "bin": {}
 }
 ```
 
