@@ -74,42 +74,7 @@
 
         <li>
 
-            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.toString">
-            function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
-            <span class="apidocSignatureSpan">()</span>
-            </a>
-
-        </li>
-
-        <li>
-
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">alexa-app-server.</span>utils</span>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server.start">module alexa-app-server.start</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.start.start">
-            function <span class="apidocSignatureSpan">alexa-app-server.</span>start
-            <span class="apidocSignatureSpan">(config)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.alexa-app-server.toString">module alexa-app-server.toString</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.alexa-app-server.toString.toString">
-            function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
-            <span class="apidocSignatureSpan">()</span>
-            </a>
 
         </li>
 
@@ -332,94 +297,22 @@
   return appServerInstance;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-```
 
-## Usage
+  return self;
+};
 
-```javascript
-var AlexaAppServer = require('alexa-app-server');
-
-var instance = AlexaAppServer.<span class="apidocCodeKeywordSpan">start</span>({
-  server_root: __dirname,     // Path to root
-  public_html: "public_html", // Static content
-  app_dir: "apps",            // Location of alexa-app modules
-  app_root: "/alexa/",        // Service root
-  port: 8080                  // Port to use
-});
-...</pre></li>
-    </ul>
-
-
-
-    <h2>
-        <a href="#apidoc.element.alexa-app-server.toString" id="apidoc.element.alexa-app-server.toString">
-        function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">toString = function () {
-    return text;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.alexa-app-server.start" id="apidoc.module.alexa-app-server.start">module alexa-app-server.start</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.alexa-app-server.start.start" id="apidoc.element.alexa-app-server.start.start">
-        function <span class="apidocSignatureSpan">alexa-app-server.</span>start
-        <span class="apidocSignatureSpan">(config)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">start = function (config) {
+// a shortcut start(config) method to avoid creating an instance if not needed
+appServer.start = function(config) {
   var appServerInstance = new appServer(config);
-  appServerInstance.start();
+  appServerInstance.<span class="apidocCodeKeywordSpan">start</span>();
   return appServerInstance;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-```
+};
 
-## Usage
-
-```javascript
-var AlexaAppServer = require('alexa-app-server');
-
-var instance = AlexaAppServer.<span class="apidocCodeKeywordSpan">start</span>({
-  server_root: __dirname,     // Path to root
-  public_html: "public_html", // Static content
-  app_dir: "apps",            // Location of alexa-app modules
-  app_root: "/alexa/",        // Service root
-  port: 8080                  // Port to use
-});
+module.exports = appServer;
 ...</pre></li>
     </ul>
 
 
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.alexa-app-server.toString" id="apidoc.module.alexa-app-server.toString">module alexa-app-server.toString</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.alexa-app-server.toString.toString" id="apidoc.element.alexa-app-server.toString.toString">
-        function <span class="apidocSignatureSpan">alexa-app-server.</span>toString
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
 
 
 </div>
